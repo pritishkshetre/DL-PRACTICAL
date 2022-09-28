@@ -1,0 +1,34 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.datasets import fashion_mnist
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+y_train
+class_names = ['T-shirt/Top','Trouser','Pullover',
+               'Dress','Coat','sandal','shirt',
+               'sneaker','bag','ankle_boot']
+for i in range(9):
+  plt.subplot(3,3,i+1)
+  plt.imshow(x_train[i], cmap='gray')
+  plt.title(class_names[y_train[i]])
+  plt.xticks([])
+x_train.shape
+x_test.shape
+x_train = x_train / 255
+x_test = x_test / 255
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense,Flatten
+model = Sequential([Flatten(input_shape=(28,28)),
+                    Dense(128,activation='relu'),
+                    Dense(10,activation='softmax')])
+model.summary()
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+model.fit(x_train, y_train, epochs=10, batch_size=5)
+test_loss, test_acc = model.evaluate(x_test,y_test)
+test_acc
+new = x_train[345]
+plt.imshow(new, cmap="gray")
+predictions = model.predict(x_train) 
+  data= np.argmax (predictions [345]) 
+  class_names [data]
